@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -39,6 +40,36 @@ class Cls(db.Model):
 
     def __repr__(self):
         return '<Class %r>' % self.classname
+
+class Problem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    problemtext = db.Column(db.Text)
+    testtext    = db.Column(db.Text)
+    cls_id   = db.Column(db.Integer, db.ForeignKey('cls.id'))
+    cls      = db.relationship('Cls', backref=db.backref('problems', lazy='dynamic'))
+
+    def __init__(self, problemtext, cls):
+        self.problemtext = problemtext
+        self.cls = cls
+
+    def __repr__(self):
+        return '<Problem %r>' % self.username
+
+class Solution(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recorded  = db.Column(db.DateTime)
+    user_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user      = db.relationship('User', backref=db.backref('solutions', lazy='dynamic'))
+    problem_id   = db.Column(db.Integer, db.ForeignKey('problem.id'))
+    problem      = db.relationship('Problem', backref=db.backref('solutions', lazy='dynamic'))
+
+    def __init__(self, problem, user, recorded):
+        self.problem = problem
+        self.user    = user
+        self.recorded= recorded
+
+    def __repr__(self):
+        return '<Solution %r>' % self.username
 
 # import hashlib; hashlib.sha224('elteik').hexdigest()
 
