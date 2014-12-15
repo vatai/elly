@@ -1,0 +1,18 @@
+<!doctype html>
+<title>Elly</title>
+<link rel=stylesheet 
+      type=text/css 
+      href="{{ url_for('static', filename='style.css') }}">
+<div class=page>
+  {% if not session.logged_in %}
+  <a href="{{ url_for('show_problem') }}">feladat</a>
+  {% else %}
+  <a href="{{ url_for('logout') }}">log out</a>
+  {% endif %}
+  
+  {% for message in get_flashed_messages() %}
+  <div class=flash>{{ message }}</div>
+  {% endfor %}
+  <h1>Mindenapos problémák</h1>
+  {% block body %}{% endblock %}
+</div>

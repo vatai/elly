@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Feladat</h2>
+  <p>Írjunk KÉT PROGRAMOT amely szöveges (text) fájlokkal dolgozik:</p>
+
+  <ul>
+    <li> Egy ÍRÓ programot: a program beolvassa readln-nel a fájlnevet és egy
+      N számot (integer), majd a megadott nevű fájlba kiírja az első N darab
+      páratlan számot.
+
+      Az .lpr vagy .pas fájlt nevezzük át "mii_eliiib_write_NÉV.pas" (vagy .lpr)
+    </li>
+    <li>
+      - Egy OLVASÓ programot: a program beolvassa readln-nel a fájlnevet
+      majd beolvassa a fájlt soronként és összeadja a beolvasott sorok
+      hosszát (ld stringek length függvény). Ezt az összeget írja ki a
+      program.
+    Az .lpr vagy .pas fájlt nevezzük át "mii_eliiib_read_NÉV.pas" (vagy .lpr)
+    </li>
+    </ul>
+  <p>File upload here</p>
+  <form action="" method=post enctype=multipart/form-data>
+    <p><input type=file name=file>
+      <input type=submit value=Upload>
+  </form>
+  
+{% endblock %}
+
