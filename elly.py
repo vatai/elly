@@ -7,7 +7,7 @@ import glob
 
 
 DATABASE="bolyai.db"
-DEBUG=True
+DEBUG=False
 SECRET_KEY = 'development key'
 UPLOAD_FOLDER = 'pas'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','lpr','pas'])
@@ -145,4 +145,4 @@ def show_entries():
     return render_template('show_entries.html', entries=entries)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
