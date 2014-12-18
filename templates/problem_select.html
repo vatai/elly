@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block body %}
+<ul class=ids>
+  {% for p in ids %}
+  <li><a href="show_problem?id={{ p }}">Feladat {{ p }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

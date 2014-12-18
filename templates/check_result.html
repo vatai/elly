@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Result</h2>
+{% if error %}
+<p class=error><strong>Error:</strong></p>
+<p>{{ error }}</p>
+<a href="{{ url_for('problem_select') }}">Vissza</a>
+{% else %}
+<p>Sikerült!</p>
+<a href="{{ url_for('problem_select') }}">Másik feladat</a>
+
+{% endif %}
+{% endblock %}
+

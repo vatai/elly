@@ -5,7 +5,7 @@
       href="{{ url_for('static', filename='style.css') }}">
 <div class=page>
   {% if not session.logged_in %}
-  <a href="{{ url_for('show_problem') }}">feladat</a>
+  <a href="{{ url_for('problem_select') }}">feladat</a>
   {% else %}
   <a href="{{ url_for('logout') }}">log out</a>
   {% endif %}
@@ -13,6 +13,6 @@
   {% for message in get_flashed_messages() %}
   <div class=flash>{{ message }}</div>
   {% endfor %}
-  <h1>Mindenapos problémák</h1>
+  <h1>Mindennapos feladatok</h1>
   {% block body %}{% endblock %}
 </div>
