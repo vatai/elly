@@ -35,36 +35,46 @@ def generate_random_file( n=80, nl=10, contents=string.printable):
     return filename
 
 
-    
-def runtest():
-    # make two files
+def modify_file():
     fn1 = generate_random_file()
     fn2 = fn1 + '.bak'
     shutil.copyfile(fn1,fn2)
-    inputs='\na\nb\n'
 
-    # run the solution
-    solution_cmd = ['./' + session['problem_id']]
-    print(fn1+inputs)
-    solution_output = check_output( solution_cmd,
-                                    input=fn1+inputs,
-                                    universal_newlines=True,
-                                    stderr=STDOUT)
-
-    # run the candidate solution
-    exe_cmd = [session['filename'].split('.pas')[0]]
+def randfilename(n=10):
+    return ''.join([ random.choice(string.ascii_letters) for _ in range(n) ])
+    
+def runtest(session):
+    # make two files
     rv = None
-    try:
-        print(fn2+inputs)
-        output = check_output( exe_cmd, input=fn2+inputs,
-                               universal_newlines=True, stderr=STDOUT)
-    except CalledProcessError as e:
-        rv = 'A program nem futot le!\n{}'.format(e.output)
+    name = session['filename'].split('.pas')[0]
+    
+    for _ in range(10):
+        n = str(random.randrange(100))
+        
+        sol_outfile = randfilename()
+        sol_input = '\n'.join([sol_outfile,n])
+        sol_cmd = ['./' + session['problem_id']]
 
+        exe_outfile = randfilename()
+        exe_cmd = [name]
+        exe_input = '\n'.join([exe_outfile,n])
 
-    # check the result
-    if not filecmp.cmp(fn1,fn2,shallow=True):
-        rv = 'Fájlok különböznek...'
-    os.remove(fn1)
-    os.remove(fn2)
+        # run the solution
+        sol_output = check_output( sol_cmd, input=sol_input,
+                                   universal_newlines=True, stderr=STDOUT)
+
+        # run the candidate solution
+        try:
+            exe_output = check_output( exe_cmd, input=exe_input,
+                                   universal_newlines=True, stderr=STDOUT)
+        except CalledProcessError as e:
+            rv = 'A program nem futot le sikeresen!\n{}'.format(e.output)
+
+        # check the result
+        if not filecmp.cmp(sol_outfile,exe_outfile,shallow=False):
+            rv = 'Fájlok különböznek...'
+
+        os.remove(sol_outfile)
+        os.remove(exe_outfile)
+
     return rv

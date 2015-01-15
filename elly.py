@@ -109,7 +109,7 @@ def check_solution():
         return render_template('check_result.html',error=error)
     
     # 2. run test
-    error = runtest()
+    error = runtest(session)
     
     if error == None:
         save_solution()
