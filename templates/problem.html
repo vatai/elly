@@ -2,7 +2,7 @@
 {% block body %}
   <h2>Feladat</h2>
 
-  <p>{{ problemtext }}</p>
+  <p>{{ problemtext|safe }}</p>
   <form action="" method=post enctype=multipart/form-data>
     <p><input type=file name=file>
       <input type=submit value=Upload>

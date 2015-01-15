@@ -1,6 +1,12 @@
-from datetime import datetime
-from elly import db,Cls,User,Problem,Solution
 from unidecode import unidecode
+from datetime import datetime,date
+from os import remove
+remove("bolyai.db")
+
+from ignored import problems
+from elly import *
+db.app = app
+db.init_app(app)
 
 db.create_all()
 
@@ -10,10 +16,7 @@ db.session.add(cls)
 user = User('vatai', 'Vatai','Emil', 'pass123', cls)
 db.session.add(user)
 
-problem = Problem('''Írj egy programot amely egy integereket tartalmazó fájlból kikeresi a legkisebbet és azt kiírja a képernyőre. Ha a fájl üres akkor ne írjon ki semmit''',cls)
-db.session.add(problem)
-
-problem = Problem('irj még egy programot',cls)
+problem = Problem(problems[0],cls,date(2015,1,15))
 db.session.add(problem)
 
 solution = Solution(problem, user, datetime.utcnow())
