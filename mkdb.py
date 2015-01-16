@@ -25,9 +25,6 @@ db.session.add(solution)
 db.session.commit()
 
 
-cls = Cls('2m')
-db.session.add(cls)
-
 lista=[['Ali', 'Arszen'],
    ['Bencsik', 'Blanka'],
    ['Bozsóki', 'Andor'],
@@ -38,7 +35,7 @@ lista=[['Ali', 'Arszen'],
    ['Fodor', 'Ádám'],
    ['Gajda', 'Benedek'],
    ['Galusz', 'Márton'],
-   ['Guyás', 'Nikoletta'],
+   ['Gulyás', 'Nikoletta'],
    ['Kovács', 'Noel'],
    ['Lukács', 'Máté'],
    ['Szögi', 'Evelin'],
@@ -46,8 +43,41 @@ lista=[['Ali', 'Arszen'],
    ['Tóth', 'Koppány'],
    ['Vrbaški', 'Viktor']]
 
+cls = Cls('2m')
+db.session.add(cls)
+
 lista=map(lambda x : [unidecode(x[0]).lower(),x[0],x[1],'pass',cls],lista)
 for s in lista:
+    user = User(*s)
+    db.session.add(user)
+
+
+
+y = [['Almási', 'Csilla'],
+     ['Bedleg', 'Kristóf'],
+     ['Berze', 'Tamás'],
+     ['Csipak', 'Levente'],
+     ['Gajda', 'Gergely'],
+     ['Juhász', 'Kristóf'],
+     ['Karácsonyi', 'Ágnes'],
+     ['Kiss', 'Tamás'],
+     ['Kormányos', 'Gergő'],
+     ['Petrás', 'Ármin'],
+     ['Rekalija', 'Roland'],
+     ['Rozsnyik', 'Szabolcs'],
+     ['Szakály', 'László'],
+     ['Széll', 'Réka'],
+     ['Szvoreny', 'Tamara'],
+     ['Téglás', 'Ervin'],
+     ['Tűri', 'Erik'],
+     ['Utasi', 'Arnold'],
+     ['Vrábel', 'Máté']]
+
+cls = Cls('4m')
+db.session.add(cls)
+
+y=map(lambda x : [unidecode(x[0]).lower()+'4m',x[0],x[1],'pass',cls],y)
+for s in y:
     user = User(*s)
     db.session.add(user)
 
