@@ -1,5 +1,4 @@
 from subprocess import check_output,STDOUT,CalledProcessError 
-
 import os,glob,re,string,random,filecmp,tempfile,shutil
 
 COMPILER = "fpc"
@@ -17,7 +16,7 @@ def compile_pas(filename):
 
 def compilesolution(id):
     fn = id+'.pas'
-    if not os.path.exists(fn) or not os.access(fn, os.X_OK):
+    if not os.path.exists(id):
         compile_pas(fn)
 
 
@@ -40,10 +39,12 @@ def modify_file():
     fn2 = fn1 + '.bak'
     shutil.copyfile(fn1,fn2)
 
+
 def randfilename(n=10):
     return ''.join([ random.choice(string.ascii_letters) for _ in range(n) ])
-    
-def runtest(session):
+
+
+def gen_file_test(session):
     # make two files
     rv = None
     name = session['filename'].split('.pas')[0]
