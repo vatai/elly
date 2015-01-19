@@ -67,7 +67,8 @@ def save_file(file):
     d['updir']=session['cls']
     d['lastname']=session['lastname']
     d['firstname']=session['firstname']
-    filename = '{updir}/{ip}-{lastname}-{firstname}.pas'
+    d['date']=datetime.utcnow().date()
+    filename = '{updir}/{ip}-{date}-{lastname}-{firstname}.pas'
     filename = filename.format(**d)
     session['filename'] = filename
     #filename = secure_filename(filename)
