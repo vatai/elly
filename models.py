@@ -43,11 +43,13 @@ class Problem(db.Model):
     cls_id   = db.Column(db.Integer, db.ForeignKey('cls.id'))
     cls      = db.relationship('Cls', backref=db.backref('problems', lazy='dynamic'))
     duein       = db.Column(db.DateTime)
-
-    def __init__(self, problemtext, cls,duein):
+    solution = db.Column(db.Text)
+    
+    def __init__(self, problemtext, cls,duein,solution):
         self.problemtext = problemtext
         self.cls = cls
         self.duein = duein
+        self.solution = solution
 
     def __repr__(self):
         return '<Problem %r>' % self.id

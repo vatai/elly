@@ -1,10 +1,23 @@
+import os
+from glob import glob
 from unidecode import unidecode
 from datetime import datetime,date
-from os import remove
-remove("bolyai.db")
 
 from ignored import problems
 from elly import *
+
+if os.path.exists(DATABASE):
+    dbs = glob.glob(DATABASE+'*')
+    del dbs[dbs.index(DATABASE)]
+    m = map(lambda x: int(x[len(DATABASE):]), dbs)
+    m=list(m)
+    if m:
+        num = max(m) + 1
+    else:
+        num = 1
+    os.rename(DATABASE,DATABASE+str(num))
+        
+
 db.app = app
 db.init_app(app)
 
@@ -16,13 +29,13 @@ db.session.add(cls)
 user = User('vatai', 'Vatai','Emil', 'pass123', cls)
 db.session.add(user)
 
-problem = Problem(problems[0],cls,date(2015,1,15))
-db.session.add(problem)
-
-solution = Solution(problem, user, datetime.utcnow())
-db.session.add(solution)
+for p in problems:
+    p = list(p)
+    p.insert(1,cls)
+    db.session.add(Problem(*p))
 
 db.session.commit()
+    
 
 
 lista=[['Ali', 'Arszen'],
