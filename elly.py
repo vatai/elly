@@ -85,14 +85,14 @@ def show_problem():
         if file and allowed_file(file.filename):
             save_file(file)
             return redirect(url_for('check_solution'))
-    
-    id=request.args.get('id', '')
-    session['problem_id']=id
-    compilesolution(id)
+    else:
+        id=request.args.get('id', '')
+        session['problem_id']=id
+        compilesolution(id)
 
-    q = Problem.query.filter_by(id=id).first()
-    problemtext = q.problemtext
-    return render_template('problem.html',problemtext=problemtext)
+        q = Problem.query.filter_by(id=id).first()
+        problemtext = q.problemtext
+        return render_template('problem.html',problemtext=problemtext)
 
 
 
