@@ -90,6 +90,9 @@ def show_problem():
         session['problem_id']=id
         compilesolution(id)
 
+        pt= Problem.query.filter_by(id=id).first().solution
+        session['solution'] = pt
+        
         q = Problem.query.filter_by(id=id).first()
         problemtext = q.problemtext
         return render_template('problem.html',problemtext=problemtext)
@@ -110,7 +113,10 @@ def check_solution():
         return render_template('check_result.html',error=error)
     
     # 2. run test
-    error = gen_file_test(session)
+    st= session["solution"].split(',')
+    f =  st[0]
+    f = eval(f)
+    error = f(session)
     
     if error == None:
         save_solution()
