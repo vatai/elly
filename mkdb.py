@@ -3,9 +3,10 @@ from glob import glob
 from unidecode import unidecode
 from datetime import datetime,date
 
-from ignored import problems
+from ignored import problems2m
 from elly import *
 
+# rename existing database
 if os.path.exists(DATABASE):
     dbs = glob.glob(DATABASE+'*')
     del dbs[dbs.index(DATABASE)]
@@ -17,27 +18,30 @@ if os.path.exists(DATABASE):
         num = 1
     os.rename(DATABASE,DATABASE+str(num))
         
-
+# init database
 db.app = app
 db.init_app(app)
-
 db.create_all()
 
+# creat class
 cls = Cls('proba')
 db.session.add(cls)
 
+# create user
 user = User('vatai', 'Vatai','Emil', 'pass123', cls)
 db.session.add(user)
 
-for p in problems:
+# create class
+cls = Cls('2m')
+db.session.add(cls)
+
+# add problems
+for p in problems2m:
     p = list(p)
     p.insert(1,cls)
     db.session.add(Problem(*p))
 
-db.session.commit()
-    
-
-
+# add users
 lista=[['Ali', 'Arszen'],
    ['Bencsik', 'Blanka'],
    ['Bozsóki', 'Andor'],
@@ -56,15 +60,16 @@ lista=[['Ali', 'Arszen'],
    ['Tóth', 'Koppány'],
    ['Vrbaški', 'Viktor']]
 
-cls = Cls('2m')
-db.session.add(cls)
-
 lista=map(lambda x : [unidecode(x[0]).lower(),x[0],x[1],'pass',cls],lista)
 for s in lista:
     user = User(*s)
     db.session.add(user)
 
 
+
+# create class and add users
+cls = Cls('4m')
+db.session.add(cls)
 
 y = [['Almási', 'Csilla'],
      ['Bedleg', 'Kristóf'],
@@ -85,9 +90,6 @@ y = [['Almási', 'Csilla'],
      ['Tűri', 'Erik'],
      ['Utasi', 'Arnold'],
      ['Vrábel', 'Máté']]
-
-cls = Cls('4m')
-db.session.add(cls)
 
 y=map(lambda x : [unidecode(x[0]).lower()+'4m',x[0],x[1],'pass',cls],y)
 for s in y:
