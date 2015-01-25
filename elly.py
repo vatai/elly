@@ -88,7 +88,7 @@ def show_problem():
     else:
         id=request.args.get('id', '')
         session['problem_id']=id
-        compilesolution(id)
+        compile_pas(id+'.pas')
 
         pt= Problem.query.filter_by(id=id).first().solution
         session['solution'] = pt
