@@ -12,12 +12,11 @@ UPLOAD_FOLDER = 'new'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg',
                           'gif','lpr','pas', 'pl'])
 print('Elly started')
-
-
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DATABASE
+db.app=app
 db.init_app(app)
 
 
