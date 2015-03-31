@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from werkzeug import secure_filename
@@ -75,26 +76,38 @@ def save_file(file):
         os.mkdir(d['updir'])
     file.save(filename)
     
+def get_class_from_username(username):
+    result = re.search("\d",username)
+    if result:
+        k = result.start(0)
+        clsstr = username[k:] 
+    else:
+        clsstr = "2m"
+    cls = Cls.query.filter_by(classname=clsstr).all()[0]
+    return cls
 
 
 @app.route('/show_problem', methods=['GET', 'POST'])
 def show_problem():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            save_file(file)
-            return redirect(url_for('check_solution'))
-    else:
-        id=request.args.get('id', '')
-        session['problem_id']=id
-        compile_pas(id+'.pas')
+    if session['logged_in'] == True:
+        if request.method == 'POST':
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                save_file(file)
+                return redirect(url_for('check_solution'))
+        else:
+            id=request.args.get('id', '')
+            session['problem_id']=id
+            compile_pas(id+'.pas')
 
-        pt= Problem.query.filter_by(id=id).first().solution
-        session['solution'] = pt
+            pt= Problem.query.filter_by(id=id).first().solution
+            session['solution'] = pt
         
-        q = Problem.query.filter_by(id=id).first()
-        problemtext = q.problemtext
-        return render_template('problem.html',problemtext=problemtext)
+            q = Problem.query.filter_by(id=id).first()
+            problemtext = q.problemtext
+            return render_template('problem.html',problemtext=problemtext)
+    else:
+        return redirect(url_for('login'))
 
 
 
@@ -133,7 +146,8 @@ def save_solution():
 @app.route('/problem_select')
 def problem_select():
     if session['logged_in'] == True:
-        q = Problem.query.all()
+        cls = get_class_from_username(session['username'])
+        q = cls.problems.all()
         ids = map(lambda x : x.id, q)
         return render_template('problem_select.html', ids=ids)
     return redirect(url_for('login'))
